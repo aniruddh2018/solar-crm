@@ -1,0 +1,2 @@
+import { Router } from 'express'; import { authenticate, authorize } from '../../middleware/auth'; import { createCompany, getCompany, internalTransfer, listCompanies, updateCompany } from './companies.controller';
+const router = Router(); router.use(authenticate); router.get('/', listCompanies); router.post('/internal-transfer', authorize('admin', 'sales'), internalTransfer); router.get('/:id', getCompany); router.post('/', authorize('admin'), createCompany); router.patch('/:id', authorize('admin'), updateCompany); export default router;

@@ -1,0 +1,23 @@
+{
+  "name": "solar-crm",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ],
+  "scripts": {
+    "dev:backend": "npm -w packages/backend run dev",
+    "dev:frontend": "npm -w packages/frontend run dev",
+    "dev": "concurrently \"npm run dev:backend\" \"npm run dev:frontend\"",
+    "build": "npm -w packages/backend run build && npm -w packages/frontend run build",
+    "db:migrate": "npm -w packages/backend run db:migrate",
+    "db:seed": "npm -w packages/backend run db:seed",
+    "db:reset": "npm -w packages/backend run db:reset",
+    "test:backend": "npm -w packages/backend run test",
+    "test:frontend": "npm -w packages/frontend run test",
+    "test": "npm run test:backend && npm run test:frontend"
+  },
+  "devDependencies": {
+    "concurrently": "^8.2.2",
+    "typescript": "^5.4.0"
+  }
+}

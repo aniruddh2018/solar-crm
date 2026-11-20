@@ -1,0 +1,14 @@
+import { Router } from 'express';
+import { authenticate, authorize } from '../../middleware/auth';
+import { createProposal, getProposal, listProposals, proposalPdf, updateProposalStatus, getProposalSettings, updateProposalSettings, quoteSuggestion } from './proposals.controller';
+const router = Router();
+router.use(authenticate);
+router.get('/settings', authorize('admin', 'sales'), getProposalSettings);
+router.patch('/settings', authorize('admin'), updateProposalSettings);
+router.get('/suggestion', authorize('admin', 'sales'), quoteSuggestion);
+router.get('/', authorize('admin', 'sales'), listProposals);
+router.get('/:id', authorize('admin', 'sales'), getProposal);
+router.post('/', authorize('admin', 'sales'), createProposal);
+router.patch('/:id/status', authorize('admin', 'sales'), updateProposalStatus);
+router.get('/:id/pdf', authorize('admin', 'sales'), proposalPdf);
+export default router;

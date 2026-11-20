@@ -1,0 +1,1 @@
+import { Router } from 'express'; import { authenticate, authorize } from '../../middleware/auth'; import { createPurchase, listPurchases } from './purchases.controller'; const router = Router(); router.use(authenticate, authorize('admin', 'sales', 'installer')); router.get('/', listPurchases); router.post('/', authorize('admin', 'sales'), createPurchase); export default router;

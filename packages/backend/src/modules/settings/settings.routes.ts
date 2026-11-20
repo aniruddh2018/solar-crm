@@ -1,0 +1,1 @@
+import { Router } from 'express'; import { authenticate, authorize } from '../../middleware/auth'; import { getPreferences, updatePreferences } from './settings.controller'; const router = Router(); router.use(authenticate, authorize('admin')); router.get('/', getPreferences); router.patch('/', updatePreferences); export default router;

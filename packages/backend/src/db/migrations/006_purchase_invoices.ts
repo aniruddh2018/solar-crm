@@ -1,0 +1,6 @@
+import type { Knex } from 'knex';
+export async function up(knex: Knex): Promise<void> {
+  await knex.schema.createTable('purchase_invoices', (t) => { t.uuid('id').primary().defaultTo(knex.raw('(lower(hex(randomblob(16))))')); t.string('purchase_number', 50).notNullable().unique(); t.uuid('supplier_id').notNullable().references('id').inTable('suppliers'); t.string('supplier_invoice_number', 100); t.date('purchase_date').notNullable(); t.decimal('total', 12, 2).notNullable(); t.text('notes'); t.uuid('created_by').references('id').inTable('users'); t.timestamps(true, true); });
+  await knex.schema.createTable('purchase_invoice_items', (t) => { t.uuid('id').primary().defaultTo(knex.raw('(lower(hex(randomblob(16))))')); t.uuid('purchase_invoice_id').notNullable().references('id').inTable('purchase_invoices').onDelete('CASCADE'); t.uuid('product_id').notNullable().references('id').inTable('products'); t.integer('quantity').notNullable(); t.decimal('unit_cost', 12, 2).notNullable(); t.decimal('total', 12, 2).notNullable(); });
+}
+export async function down(knex: Knex): Promise<void> { await knex.schema.dropTableIfExists('purchase_invoice_items'); await knex.schema.dropTableIfExists('purchase_invoices'); }

@@ -1,0 +1,12 @@
+import { Router } from 'express';
+import { authenticate, authorize } from '../../middleware/auth';
+import { beginMetaConnect, metaCallback, metaStatus, receiveWebhook, setPageEnabled, verifyWebhook } from './meta.controller';
+const router = Router();
+router.get('/webhook', verifyWebhook);
+router.post('/webhook', receiveWebhook);
+router.get('/callback', metaCallback);
+router.use(authenticate, authorize('admin'));
+router.get('/status', metaStatus);
+router.get('/connect', beginMetaConnect);
+router.patch('/connections/:id', setPageEnabled);
+export default router;
